@@ -20,7 +20,7 @@ export default async function handler(req, res) {
         currency: "NGN",
         reference: "ref_" + Date.now(),
         customer: {
-          email: "Celeste Subscriber"
+          email: "Celestesubscriber@email.com"
         },
         redirect_url: "https://tr.ee/kf8yz4NjOi",
         channels: ["bank_transfer"] // 🔥 ONLY BANK TRANSFER
