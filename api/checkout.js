@@ -19,7 +19,8 @@ export default async function handler(req, res) {
         amount: 14500,
         currency: "NGN",
         reference: "ref_" + Date.now(),
-        customer: { Customer
+        customer: {
+        name: "Customer",
           email: "payment@smiley.com"
         },
         redirect_url: "https://tr.ee/kf8yz4NjOi",
