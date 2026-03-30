@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // Allow frontend access
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -9,6 +8,15 @@ export default async function handler(req, res) {
   }
 
   try {
+    const { amount } = req.body || {};
+
+    // Optional: Validate allowed prices
+    const validAmounts = [8500, 14500];
+
+    if (!validAmounts.includes(amount)) {
+      return res.status(400).json({ error: "Invalid amount" });
+    }
+
     const response = await fetch("https://api.korapay.com/merchant/api/v1/charges/initialize", {
       method: "POST",
       headers: {
@@ -16,15 +24,14 @@ export default async function handler(req, res) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        amount: 14500,
+        amount: amount, // ✅ dynamic now
         currency: "NGN",
         reference: "ref_" + Date.now(),
         customer: {
-        name: "Customer",
-          email: "payment@smiley.com"
+          email: "test@email.com"
         },
         redirect_url: "https://tr.ee/kf8yz4NjOi",
-        channels: ["bank_transfer"] // 🔥 ONLY BANK TRANSFER
+        channels: ["bank_transfer"]
       })
     });
 
