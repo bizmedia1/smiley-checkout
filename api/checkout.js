@@ -10,7 +10,6 @@ export default async function handler(req, res) {
   try {
     const { amount } = req.body || {};
 
-    // Optional: Validate allowed prices
     const validAmounts = [8500, 14500];
 
     if (!validAmounts.includes(amount)) {
@@ -24,7 +23,7 @@ export default async function handler(req, res) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        amount: amount, // ✅ dynamic now
+        amount,
         currency: "NGN",
         reference: "ref_" + Date.now(),
         customer: {
@@ -37,7 +36,20 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    return res.status(200).json(data);
+    // ❗ Check if Korapay failed
+    if (!data || data.status !== true) {
+      return res.status(400).json({
+        error: "Korapay failed",
+        details: data
+      });
+    }
+
+    // ✅ Return ONLY what frontend needs
+    return res.status(200).json({
+      data: {
+        checkout_url: data.data.checkout_url
+      }
+    });
 
   } catch (error) {
     return res.status(500).json({ error: "Something went wrong" });
