@@ -30,7 +30,7 @@ export default async function handler(req, res) {
           email: "test@email.com"
         },
         redirect_url: "https://tr.ee/kf8yz4NjOi",
-        channels: ["bank_transfer"]
+    
       })
     });
 
