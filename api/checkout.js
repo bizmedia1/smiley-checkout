@@ -28,7 +28,7 @@ export default async function handler(req, res) {
         reference: "ref_" + Date.now(),
         customer: {
           email: "test@email.com",
-          name: "Customer" // ✅ ADD THIS (important)
+          name: "Customer"
         },
         redirect_url: "https://tr.ee/kf8yz4NjOi"
       })
@@ -36,23 +36,10 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    console.log("KORAPAY RESPONSE:", data); // 🔥 debug
-
-    if (!data || data.status !== true) {
-      return res.status(400).json({
-        error: "Korapay failed",
-        details: data
-      });
-    }
-
-    return res.status(200).json({
-      data: {
-        checkout_url: data.data.checkout_url
-      }
-    });
+    // 🔥 RETURN FULL RESPONSE FOR DEBUG
+    return res.status(200).json(data);
 
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ error: "Server error" });
   }
 }
