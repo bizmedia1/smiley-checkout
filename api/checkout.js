@@ -1,8 +1,16 @@
 export default async function handler(req, res) {
+
+  // ✅ CORS HEADERS
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
+  // ✅ HANDLE PREFLIGHT (VERY IMPORTANT)
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
+  // ❌ ONLY ALLOW POST
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
@@ -36,12 +44,21 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    // 🔥 RETURN FULL RESPONSE FOR DEBUG
+    // ❗ CHECK IF KORAPAY FAILED
+    if (!data || data.status !== true) {
+      return res.status(400).json({
+        error: "Korapay failed",
+        details: data
+      });
+    }
+
+    // ✅ RETURN CLEAN RESPONSE
     return res.status(200).json({
-  data: {
-    checkout_url: data.data.checkout_url
-  }
-});
+      data: {
+        checkout_url: data.data.checkout_url
+      }
+    });
+
   } catch (error) {
     return res.status(500).json({ error: "Server error" });
   }
