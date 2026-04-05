@@ -37,8 +37,11 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     // 🔥 RETURN FULL RESPONSE FOR DEBUG
-    return res.status(200).json(data);
-
+    return res.status(200).json({
+  data: {
+    checkout_url: data.data.checkout_url
+  }
+});
   } catch (error) {
     return res.status(500).json({ error: "Server error" });
   }
