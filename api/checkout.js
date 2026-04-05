@@ -8,11 +8,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { amount } = req.body || {};
+    const { amount } = req.body;
 
     const validAmounts = [8500, 14500];
 
-    if (!validAmounts.includes(amount)) {
+    if (!validAmounts.includes(Number(amount))) {
       return res.status(400).json({ error: "Invalid amount" });
     }
 
@@ -23,20 +23,21 @@ export default async function handler(req, res) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        amount,
+        amount: Number(amount),
         currency: "NGN",
         reference: "ref_" + Date.now(),
         customer: {
-          email: "test@email.com"
+          email: "test@email.com",
+          name: "Customer" // ✅ ADD THIS (important)
         },
-        redirect_url: "https://tr.ee/kf8yz4NjOi",
-    
+        redirect_url: "https://tr.ee/kf8yz4NjOi"
       })
     });
 
     const data = await response.json();
 
-    // ❗ Check if Korapay failed
+    console.log("KORAPAY RESPONSE:", data); // 🔥 debug
+
     if (!data || data.status !== true) {
       return res.status(400).json({
         error: "Korapay failed",
@@ -44,7 +45,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // ✅ Return ONLY what frontend needs
     return res.status(200).json({
       data: {
         checkout_url: data.data.checkout_url
@@ -52,6 +52,7 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    return res.status(500).json({ error: "Something went wrong" });
+    console.error(error);
+    return res.status(500).json({ error: "Server error" });
   }
 }
