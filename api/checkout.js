@@ -38,7 +38,7 @@ export default async function handler(req, res) {
           email: "test@email.com",
           name: "Customer"
         },
-        redirect_url: "https://tr.ee/kf8yz4NjOi"
+        redirect_url: "https://t.me/Celesteofficialcoach/?text=I'm%20ready%20to%20know%20more%20about%20CELESTE%20and%20Purchase%20coupon%20code%20for%20Registration"
       })
     });
 
