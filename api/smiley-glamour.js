@@ -29,7 +29,7 @@ export default async function handler(req, res) {
           email: "Regular@email.com",
           name: "Smiley"
         },
-        redirect_url: "https://your-redirect-link.com"
+        redirect_url: "https://t.me/Glamourofficialcoach/?text=I'm%20ready%20to%20know%20more%20about%20GLAMOUR%20and%20Purchase%20coupon%20code%20for%20Registration"
       })
     });
 
