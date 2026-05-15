@@ -47,9 +47,13 @@ export default async function handler(req, res) {
 
     // CUSTOM EMAIL
 
-    const cleanName = fullname
-      .toLowerCase()
-      .replace(/\s+/g, "");
+    const firstName = fullname
+  .trim()
+  .split(" ")[0];
+
+const cleanName = firstName
+  .toLowerCase()
+  .replace(/\s+/g, "");
 
     const cleanCourse = course
       .toLowerCase()
