@@ -106,7 +106,7 @@ const cleanName = firstName
           },
 
           redirect_url:
-            "https://t.me/ParamountEntertainment12/?text=Payment%20successful",
+            "https://t.me/goldsupplyer/?text=Payment%20successful%20,%20Please%20Verify",
 
           metadata: {
 
